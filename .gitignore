@@ -1,0 +1,17 @@
+# Binaries for programs and plugins
+*.exe
+*.dll
+*.so
+
+# Test binary
+*.test
+
+# Output of the go coverage tool
+*.out
+
+# Vendor folders
+.glide/
+vendor/
+
+# Project folders
+.vscode/

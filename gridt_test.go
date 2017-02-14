@@ -8,15 +8,15 @@ const (
 	checkMark = "\u2713"
 	ballotX   = "\u2717"
 
-	logMsg   = "\n%s: %s"
-	fatalMsg = logMsg + "\nwidths = %v\nfit = %v"
+	logMsgf   = "\n%s: %s"
+	fatalMsgf = logMsgf + "\nwidths = %v\nfit = %v"
 )
 
 func end(passed bool, msg string, ws []uint, f bool, t *testing.T) {
 	if !passed {
-		t.Fatalf(fatalMsg, msg, ballotX, ws, f)
+		t.Fatalf(fatalMsgf, msg, ballotX, ws, f)
 	}
-	t.Logf(logMsg, msg, checkMark)
+	t.Logf(logMsgf, msg, checkMark)
 }
 
 func TestFromBidimensional(t *testing.T) {

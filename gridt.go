@@ -1,20 +1,20 @@
 package gridt
 
-type direction int8
-
 const (
 	LeftToRight direction = iota
 	TopToBottom
 )
 
-func FromBidimensional(values []string, max uint) (widths []int, ok bool) {
+type direction int8
+
+func FromBidimensional(values []string, max uint) (widths []uint, ok bool) {
 	switch len(values) {
 	case 0:
-		return []int{}, true
+		return []uint{}, true
 	case 1:
-		firstLen := len(values[0])
-		if int(max) >= firstLen {
-			return []int{firstLen}, true
+		firstLen := uint(len(values[0]))
+		if max >= firstLen {
+			return []uint{firstLen}, true
 		}
 		return nil, false
 	default:

@@ -7,60 +7,64 @@ import (
 const (
 	checkMark = "\u2713"
 	ballotX   = "\u2717"
+
+	logMsg   = "\n%s: %s"
+	fatalMsg = logMsg + "\nwidths = %v\nfit = %v"
 )
 
+func end(passed bool, msg string, ws []uint, f bool, t *testing.T) {
+	if !passed {
+		t.Fatalf(fatalMsg, msg, ballotX, ws, f)
+	}
+	t.Logf(logMsg, msg, checkMark)
+}
+
 func TestFromBidimensional(t *testing.T) {
-	// Empty list.
-	t.Run("With zero items", func(t *testing.T) {
-		ws, f := FromBidimensional([]string{}, 10)
-		const msg = "\nShould return an empty list of widths that fits: "
-		if len(ws) != 0 || !f {
-			t.Fatalf("%s%s\nwidths = %v\nfit = %v", msg, ballotX, ws, f)
-		}
-		t.Log(msg, checkMark)
+	var msg string
+	var passed, f bool
+	var l uint
+	var ws []uint
+
+	t.Run("EmptyList", func(t *testing.T) {
+		msg = "Should return an empty list of widths that fits"
+		ws, l, f = FromBidimensional([]string{}, 10, TopToBottom, " ")
+		passed = len(ws) == 0 && l == 0 && f
+		end(passed, msg, ws, f, t)
 	})
 
-	// One item on the list.
-	t.Run("With one item and sufficient size", func(t *testing.T) {
-		ws, f := FromBidimensional([]string{"1234567890"}, 20)
-		const msg = "\nShould return a list with one width that fits: "
-		if len(ws) != 1 || !f {
-			t.Fatalf("%s%s\nwidths = %v\nfit = %v", msg, ballotX, ws, f)
-		}
-		t.Log(msg, checkMark)
-	})
-	t.Run("With one item and unsufficient size", func(t *testing.T) {
-		ws, f := FromBidimensional([]string{"1234567890"}, 5)
-		const msg = "\nShould return an empty list that does not fit: "
-		if len(ws) != 0 || f {
-			t.Fatalf("%s%s\nwidths = %v\nfit = %v", msg, ballotX, ws, f)
-		}
-		t.Log(msg, checkMark)
+	t.Run("OneItem", func(t *testing.T) {
+		t.Run("SufficientSize", func(t *testing.T) {
+			msg = "Should return a list with one width that fits"
+			ws, l, f = FromBidimensional([]string{"1234567890"}, 20, TopToBottom, " ")
+			passed = len(ws) == 1 && l == 1 && f
+			end(passed, msg, ws, f, t)
+		})
+		t.Run("UnsufficientSize", func(t *testing.T) {
+			msg = "Should return an empty list that does not fit"
+			ws, l, f = FromBidimensional([]string{"1234567890"}, 5, TopToBottom, " ")
+			passed = len(ws) == 0 && l == 0 && !f
+			end(passed, msg, ws, f, t)
+		})
 	})
 
-	// Two items on the list.
-	t.Run("With two items and sufficient size for both", func(t *testing.T) {
-		ws, f := FromBidimensional([]string{"1234567890", "1234567890"}, 50)
-		const msg = "\nShould return a list with two widths that fits: "
-		if len(ws) != 2 || !f {
-			t.Fatalf("%s%s\nwidths = %v\nfit = %v", msg, ballotX, ws, f)
-		}
-		t.Log(msg, checkMark)
-	})
-	t.Run("With two items and sufficient size for one column", func(t *testing.T) {
-		ws, f := FromBidimensional([]string{"1234567890", "1234567890"}, 15)
-		const msg = "\nShould return a list with one width that fits: "
-		if len(ws) != 1 || !f {
-			t.Fatalf("%s%s\nwidths = %v\nfit = %v", msg, ballotX, ws, f)
-		}
-		t.Log(msg, checkMark)
-	})
-	t.Run("With two items and unsufficient size for any", func(t *testing.T) {
-		ws, f := FromBidimensional([]string{"1234567890", "1234567890"}, 5)
-		const msg = "\nShould return an empty list that does not fit: "
-		if len(ws) != 0 || f {
-			t.Fatalf("%s%s\nwidths = %v\nfit = %v", msg, ballotX, ws, f)
-		}
-		t.Log(msg, checkMark)
+	t.Run("TwoItems", func(t *testing.T) {
+		t.Run("SufficientSizeForTwoColumns", func(t *testing.T) {
+			msg = "Should return a list with two widths that fits"
+			ws, l, f = FromBidimensional([]string{"1234567890", "1234567890"}, 50, TopToBottom, " ")
+			passed = len(ws) == 2 && l == 1 && f
+			end(passed, msg, ws, f, t)
+		})
+		t.Run("SufficientSizeForOneColumn", func(t *testing.T) {
+			msg = "Should return a list with one width that fits"
+			ws, l, f = FromBidimensional([]string{"1234567890", "1234567890"}, 15, TopToBottom, " ")
+			passed = len(ws) == 1 && l == 2 && f
+			end(passed, msg, ws, f, t)
+		})
+		t.Run("UnsufficientSizeFor", func(t *testing.T) {
+			msg = "Should return an empty list that does not fit"
+			ws, l, f = FromBidimensional([]string{"1234567890", "1234567890"}, 5, TopToBottom, " ")
+			passed = len(ws) == 0 && l == 0 && !f
+			end(passed, msg, ws, f, t)
+		})
 	})
 }

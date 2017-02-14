@@ -7,24 +7,21 @@ const (
 
 type direction int8
 
-func FromBidimensional(v []string, m uint) ([]uint, bool) {
-	const sep = " "
-	const d = TopToBottom
-
+func FromBidimensional(v []string, m uint, d direction, sep string) ([]uint, uint, bool) {
 	count := len(v)
 	switch count {
 
-	// If the slice is empty, say it fits, with no columns.
+	// If the slice is empty, returns empty grid that fits.
 	case 0:
-		return []uint{}, true
+		return []uint{}, 0, true
 
-	// If it has one item, validate it.
+	// If it has one item, it is validated.
 	case 1:
 		l := uint(len(v[0]))
 		if m >= l {
-			return []uint{l}, true
+			return []uint{l}, 1, true
 		}
-		return nil, false
+		return nil, 0, false
 
 	// If it has two or more items...
 	default:
@@ -76,11 +73,11 @@ func FromBidimensional(v []string, m uint) ([]uint, bool) {
 				sum += int(width)
 			}
 			if sum < free {
-				return widths, true
+				return widths, uint(lines), true
 			}
 		}
 
 		// If no possibility worked, than the cells does not fit the maximum size.
-		return nil, false
+		return nil, 0, false
 	}
 }

@@ -7,17 +7,80 @@ const (
 
 type direction int8
 
-func FromBidimensional(values []string, max uint) (widths []uint, ok bool) {
-	switch len(values) {
+func FromBidimensional(v []string, m uint) ([]uint, bool) {
+	const sep = " "
+	const d = TopToBottom
+
+	count := len(v)
+	switch count {
+
+	// If the slice is empty, say it fits, with no columns.
 	case 0:
 		return []uint{}, true
+
+	// If it has one item, validate it.
 	case 1:
-		firstLen := uint(len(values[0]))
-		if max >= firstLen {
-			return []uint{firstLen}, true
+		l := uint(len(v[0]))
+		if m >= l {
+			return []uint{l}, true
 		}
 		return nil, false
+
+	// If it has two or more items...
 	default:
+
+		// `lines` represents the minimum number of lines necessary.
+		// This loop will check for every possibility.
+		for lines := 1; lines <= count; lines++ {
+
+			// `columns` represents the number of columns, based on the current number of lines.
+			// It is the cells count, divided by the number of lines, rounded up.
+			columns := count / lines
+			if count%lines != 0 {
+				columns++
+			}
+
+			// Calculates the free space...
+			// Which is the maximum size, minus the total width of all the separators.
+			// If there is no free space, this possibility is ignored.
+			free := int(m) - ((columns - 1) * len(sep))
+			if free < 0 {
+				continue
+			}
+
+			// Creates a slice of the widths of the columns.
+			widths := make([]uint, columns)
+			for i, vv := range v {
+				// `v` represents the list of values.
+				// `widths` represents the list of columns' widths.
+				// `i` cannot be the index of the value on `v`, but its index on the line.
+				// So, `i` is adjusted, based on the direction of the grid population.
+				switch d {
+				case TopToBottom:
+					i /= lines
+				case LeftToRight:
+					i %= columns
+				}
+
+				// Now, `i` represents the index of the column (or cell on the line).
+				// `widths[i]` is substituted by the current value, if the latter is bigger.
+				// `widths[i]` represents the bigger value on the `i` column.
+				if l := uint(len(vv)); l > widths[i] {
+					widths[i] = l
+				}
+			}
+
+			// If the sum of all widths fits the free space, then the possibility is reality!
+			var sum int
+			for _, width := range widths {
+				sum += int(width)
+			}
+			if sum < free {
+				return widths, true
+			}
+		}
+
+		// If no possibility worked, than the cells does not fit the maximum size.
 		return nil, false
 	}
 }

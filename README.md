@@ -6,10 +6,12 @@ Inspired by [ogham/rust-term-grid][1].
 
 ### Example
 
-*What we do not want:*
+**What we do not want:**
+
 ![What we do not want](./.assets/what-we-do-not-want.png "What we do no want")
 
-*What we want:*
+**What we want:**
+
 ![What we want](./.assets/what-we-want.png "What we want")
 
 ### License

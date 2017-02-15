@@ -17,18 +17,19 @@ var (
 	randomLists = [][]string{
 		{"a_value", "another_value", "lots_of_cells", "small_value", "biiiiiiiiiiiig_vaaaaaaaaaalue", "with spaces, it's better to read", "abc", "123", "baby_u_n_me", "bla bla blablablablab", "I see the endings, now", "nothing is broken"},
 		{"a", "b", "ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"},
+		{"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "b", "c"},
 	}
 )
 
 func fixedList(n int) []string {
-	var s []string
+	s := make([]string, n)
 	for i := 0; i < n; i++ {
-		s = append(s, "1234567890")
+		s[i] = "1234567890"
 	}
 	return s
 }
 
-func fmtMsg(len int, f bool) string {
+func fmtMsg(i, len int, f bool) string {
 	var list, fit string
 	if !f {
 		list = "n empty list"
@@ -37,11 +38,11 @@ func fmtMsg(len int, f bool) string {
 		fit = "fits"
 		list = fmt.Sprintf(" list with %d column(s)", len)
 	}
-	return fmt.Sprintf("Should return a%s that %s", list, fit)
+	return fmt.Sprintf("#%d Should return a%s that %s", i, list, fit)
 }
 
 func TestFitIntoWidth(t *testing.T) {
-	for _, c := range []struct {
+	for i, c := range []struct {
 		v []string  //=> cells' values
 		m uint      //=> maximum width
 		d Direction //=> direction
@@ -83,8 +84,10 @@ func TestFitIntoWidth(t *testing.T) {
 		{randomLists[0], 72, LeftToRight, "  ", 2, 6, true},
 		{randomLists[1], 100, TopToBottom, "^-._,^-._,^-._,^-._,^-._,^-._,^", 1, 3, true},
 		{randomLists[1], 100, LeftToRight, "^-._,^-._,^-._,^-._,^-._,^-._,^", 1, 3, true},
+		{randomLists[2], 100, TopToBottom, "^-._,^-._,^-._,^-._,^-._,^-._,^", 1, 3, true},
+		{randomLists[2], 100, LeftToRight, "^-._,^-._,^-._,^-._,^-._,^-._,^", 1, 3, true},
 	} {
-		msg := fmtMsg(c.c, c.f)
+		msg := fmtMsg(i, c.c, c.f)
 		ws, l, f := NewWithCells(c.d, c.s, c.v...).FitIntoWidth(c.m)
 		if len(ws) != c.c || l != c.l || f != c.f {
 			t.Fatalf(fatalMsgf, msg, ballotX, ws, l, f)

@@ -25,15 +25,7 @@ type Grid struct {
 // `d` represents the direction in which the values will be written.
 // `sep` represents the separator; a string that will be between each column.
 func New(d Direction, sep string) *Grid {
-	return NewWithSize(d, sep, 0)
-}
-
-// NewWithSize returns a new Grid, with a pre-defined size of cells.
-// `d` represents the direction in which the values will be written.
-// `sep` represents the separator; a string that will be between each column.
-// `size` is the pre-defined size of cells.
-func NewWithSize(d Direction, sep string, size uint) *Grid {
-	return &Grid{make([]string, size), d, sep}
+	return &Grid{make([]string, 0), d, sep}
 }
 
 // NewWithCells returns a new Grid, with pre-defined cells.
@@ -41,7 +33,7 @@ func NewWithSize(d Direction, sep string, size uint) *Grid {
 // `sep` represents the separator; a string that will be between each column.
 // `s` is the cells that will be added.
 func NewWithCells(d Direction, sep string, s ...string) *Grid {
-	return NewWithSize(d, sep, uint(len(s))).Add(s...)
+	return New(d, sep).Add(s...)
 }
 
 // Cells returns all cells of the grid.
@@ -190,12 +182,4 @@ func (g Grid) biggerFromEachColumn(lines, columns int) []uint {
 		}
 	}
 	return widths
-}
-
-func divUp(a, b int) int {
-	c := a / b
-	if a%b != 0 {
-		c++
-	}
-	return c
 }

@@ -1,6 +1,6 @@
 # Gridt
 
-Display contents as a grid in the terminal. Works with tridimensional matrixes (slices of slices), whose number of cells, columns and rows are well-defined, and with bidimensional lists (slices) that still need to calculate the count of the columns and rows and the size of each item.
+Display contents as a grid in the terminal (or any place you want to write it). This lib formats bidimensional lists as grids, with well-defined columns, for the sake of readability.
 
 Inspired by [ogham/rust-term-grid][1] and by the fact that I needed it for [Nhanderu/ipe][2].
 

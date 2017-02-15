@@ -13,6 +13,10 @@ const (
 	fatalMsgf = logMsgf + "\ncolumns = %v\nlines = %v\nfit = %v"
 )
 
+var randomLists = [][]string{
+	{"a_value", "another_value", "lots_of_cells", "small_value", "biiiiiiiiiiiig_vaaaaaaaaaalue", "with spaces, it's better to read", "abc", "123", "baby_u_n_me", "bla bla blablablablab", "I see the endings, now", "nothing is broken"},
+}
+
 func fmtMsg(len int, f bool) string {
 	var list, fit string
 	if !f {
@@ -52,6 +56,9 @@ func TestFromBidimensional(t *testing.T) {
 		{[]string{"1234567890", "1234567890", "1234567890"}, 30, TopToBottom, " ", 2, 2, true},
 		{[]string{"1234567890", "1234567890", "1234567890"}, 15, TopToBottom, " ", 1, 3, true},
 		{[]string{"1234567890", "1234567890", "1234567890"}, 5, TopToBottom, " ", 0, 0, false},
+
+		// Random-sized lists.
+		{randomLists[0], 72, TopToBottom, "  ", 3, 4, true},
 	} {
 		msg := fmtMsg(c.lenWs, c.f)
 		ws, l, f := FromBidimensional(c.v, c.m, c.d, c.s)

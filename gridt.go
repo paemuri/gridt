@@ -109,10 +109,7 @@ func (g Grid) FitIntoWidth(max uint) (widths []uint, lines uint, ok bool) {
 
 			// `columns` represents the number of columns, based on the current number of lines.
 			// It is the cells count, divided by the number of lines, rounded up.
-			columns := count / lines
-			if count%lines != 0 {
-				columns++
-			}
+			columns := divUp(count, lines)
 
 			// Calculates the free space...
 			// Which is the maximum size, minus the total width of all the separators.
@@ -153,12 +150,8 @@ func (g Grid) FitIntoColumns(max uint) (widths []uint, lines uint, ok bool) {
 
 	// `lines` represents the number of lines.
 	// It is the cells count, divided by the number of maximum columns, rounded up.
-	m := int(max)
-	l := len(g.v) / m
-	if len(g.v)%m != 0 {
-		l++
-	}
-	return g.biggerFromEachColumn(l, m), uint(l), true
+	l := divUp(len(g.v), int(max))
+	return g.biggerFromEachColumn(l, int(max)), uint(l), true
 }
 
 func (g Grid) biggerFromEachColumn(lines, columns int) []uint {
@@ -184,4 +177,12 @@ func (g Grid) biggerFromEachColumn(lines, columns int) []uint {
 		}
 	}
 	return widths
+}
+
+func divUp(a, b int) int {
+	c := a / b
+	if a%b != 0 {
+		c++
+	}
+	return c
 }

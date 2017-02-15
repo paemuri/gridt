@@ -85,7 +85,7 @@ func TestFitIntoWidth(t *testing.T) {
 		{randomLists[1], 100, LeftToRight, "^-._,^-._,^-._,^-._,^-._,^-._,^", 1, 3, true},
 	} {
 		msg := fmtMsg(c.c, c.f)
-		ws, l, f := NewWithSize(c.d, c.s, 0).Add(c.v...).FitIntoWidth(c.m)
+		ws, l, f := NewWithCells(c.d, c.s, c.v...).FitIntoWidth(c.m)
 		if len(ws) != c.c || l != c.l || f != c.f {
 			t.Fatalf(fatalMsgf, msg, ballotX, ws, l, f)
 		}

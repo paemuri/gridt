@@ -31,6 +31,14 @@ func NewWithSize(d direction, sep string, size uint) *Grid {
 	return &Grid{make([]string, size), d, sep}
 }
 
+// NewWithCells returns a new Grid, with pre-defined cells.
+// `d` represents the direction in which the values will be written.
+// `sep` represents the separator; a string that will be between each column.
+// `s` is the cells that will be added.
+func NewWithCells(d direction, sep string, s ...string) *Grid {
+	return NewWithSize(d, sep, uint(len(s))).Add(s...)
+}
+
 // Cells returns all cells of the grid.
 func (g Grid) Cells() []string {
 	return g.v

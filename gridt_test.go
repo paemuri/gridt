@@ -14,17 +14,19 @@ const (
 )
 
 var (
-	commonLists = [][]string{
-		{},
-		{"1234567890"},
-		{"1234567890", "1234567890"},
-		{"1234567890", "1234567890", "1234567890"},
-	}
 	randomLists = [][]string{
 		{"a_value", "another_value", "lots_of_cells", "small_value", "biiiiiiiiiiiig_vaaaaaaaaaalue", "with spaces, it's better to read", "abc", "123", "baby_u_n_me", "bla bla blablablablab", "I see the endings, now", "nothing is broken"},
 		{"a", "b", "ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"},
 	}
 )
+
+func fixedList(n int) []string {
+	var s []string
+	for i := 0; i < n; i++ {
+		s = append(s, "1234567890")
+	}
+	return s
+}
 
 func fmtMsg(len int, f bool) string {
 	var list, fit string
@@ -49,32 +51,32 @@ func TestFitIntoWidth(t *testing.T) {
 		f bool      //=> if it fits
 	}{
 		// Empty lists.
-		{commonLists[0], 10, TopToBottom, " ", 0, 0, false},
-		{commonLists[0], 10, LeftToRight, " ", 0, 0, false},
+		{fixedList(0), 10, TopToBottom, " ", 0, 0, false},
+		{fixedList(0), 10, LeftToRight, " ", 0, 0, false},
 
 		// Lists with one cell.
-		{commonLists[1], 20, TopToBottom, " ", 1, 1, true},
-		{commonLists[1], 5, TopToBottom, " ", 0, 0, false},
-		{commonLists[1], 20, LeftToRight, " ", 1, 1, true},
-		{commonLists[1], 5, LeftToRight, " ", 0, 0, false},
+		{fixedList(1), 20, TopToBottom, " ", 1, 1, true},
+		{fixedList(1), 5, TopToBottom, " ", 0, 0, false},
+		{fixedList(1), 20, LeftToRight, " ", 1, 1, true},
+		{fixedList(1), 5, LeftToRight, " ", 0, 0, false},
 
 		// Lists with two cells.
-		{commonLists[2], 30, TopToBottom, " ", 2, 1, true},
-		{commonLists[2], 15, TopToBottom, " ", 1, 2, true},
-		{commonLists[2], 5, TopToBottom, " ", 0, 0, false},
-		{commonLists[2], 30, LeftToRight, " ", 2, 1, true},
-		{commonLists[2], 15, LeftToRight, " ", 1, 2, true},
-		{commonLists[2], 5, LeftToRight, " ", 0, 0, false},
+		{fixedList(2), 30, TopToBottom, " ", 2, 1, true},
+		{fixedList(2), 15, TopToBottom, " ", 1, 2, true},
+		{fixedList(2), 5, TopToBottom, " ", 0, 0, false},
+		{fixedList(2), 30, LeftToRight, " ", 2, 1, true},
+		{fixedList(2), 15, LeftToRight, " ", 1, 2, true},
+		{fixedList(2), 5, LeftToRight, " ", 0, 0, false},
 
 		// Lists with three cells.
-		{commonLists[3], 50, TopToBottom, " ", 3, 1, true},
-		{commonLists[3], 30, TopToBottom, " ", 2, 2, true},
-		{commonLists[3], 15, TopToBottom, " ", 1, 3, true},
-		{commonLists[3], 5, TopToBottom, " ", 0, 0, false},
-		{commonLists[3], 50, LeftToRight, " ", 3, 1, true},
-		{commonLists[3], 30, LeftToRight, " ", 2, 2, true},
-		{commonLists[3], 15, LeftToRight, " ", 1, 3, true},
-		{commonLists[3], 5, LeftToRight, " ", 0, 0, false},
+		{fixedList(3), 50, TopToBottom, " ", 3, 1, true},
+		{fixedList(3), 30, TopToBottom, " ", 2, 2, true},
+		{fixedList(3), 15, TopToBottom, " ", 1, 3, true},
+		{fixedList(3), 5, TopToBottom, " ", 0, 0, false},
+		{fixedList(3), 50, LeftToRight, " ", 3, 1, true},
+		{fixedList(3), 30, LeftToRight, " ", 2, 2, true},
+		{fixedList(3), 15, LeftToRight, " ", 1, 3, true},
+		{fixedList(3), 5, LeftToRight, " ", 0, 0, false},
 
 		// Random-sized lists.
 		{randomLists[0], 72, TopToBottom, "  ", 3, 4, true},
@@ -83,7 +85,7 @@ func TestFitIntoWidth(t *testing.T) {
 		{randomLists[1], 100, LeftToRight, "^-._,^-._,^-._,^-._,^-._,^-._,^", 1, 3, true},
 	} {
 		msg := fmtMsg(c.c, c.f)
-		ws, l, f := NewWithSize(c.d, c.s, 0).AddRange(c.v).FitIntoWidth(c.m)
+		ws, l, f := NewWithSize(c.d, c.s, 0).Add(c.v...).FitIntoWidth(c.m)
 		if len(ws) != c.c || l != c.l || f != c.f {
 			t.Fatalf(fatalMsgf, msg, ballotX, ws, l, f)
 		}

@@ -83,29 +83,28 @@ func (g *Grid) Delete(i ...uint) *Grid {
 
 // FitIntoWidth formats the grid, based on a maximum width.
 // `max` represents the maximum width of the grid, based on characters.
-// `widths` represents the size, by characters, of each column. `len(widths)` works as the number of columns.
-// `lines` represents the number of lines.
-// `ok` says whether the the grid fits in the maximum width informed. If false, ignore the other values.
-func (g Grid) FitIntoWidth(max uint) (widths []uint, lines uint, ok bool) {
+// `dim` represents the dimensions of the grid, used for formatting. See `Dimensions`.
+// `ok` says whether the the grid fits in the maximum width informed. If false, discard `dim`.
+func (g Grid) FitIntoWidth(max uint) (dim Dimensions, ok bool) {
 	switch count := len(g.v); count {
 
 	// If the slice is empty, returns empty grid that fits.
 	case 0:
-		return nil, 0, false
+		return Dimensions{}, false
 
 	// If it has one item, it is validated.
 	case 1:
 		if l := uint(len(g.v[0])); l <= max {
-			return []uint{l}, 1, true
+			return Dimensions{[]uint{l}, 1, g}, true
 		}
-		return nil, 0, false
+		return Dimensions{}, false
 
 	// If it has two or more items...
 	default:
 
 		// If the maximum size is zero, it is invalid.
 		if max <= 0 {
-			return nil, 0, false
+			return Dimensions{}, false
 		}
 
 		// `lines` represents the minimum number of lines necessary.
@@ -133,30 +132,29 @@ func (g Grid) FitIntoWidth(max uint) (widths []uint, lines uint, ok bool) {
 				sum += int(width)
 			}
 			if sum <= free {
-				return widths, uint(lines), true
+				return Dimensions{widths, uint(lines), g}, true
 			}
 		}
 
 		// If no possibility worked, than the cells does not fit the maximum size.
-		return nil, 0, false
+		return Dimensions{}, false
 	}
 }
 
 // FitIntoColumns formats the grid, based on a maximum quantity of columns.
 // `max` represents the maximum quantity of columns of the grid.
-// `widths` represents the size, by characters, of each column. `len(widths)` works as the number of columns.
-// `lines` represents the number of lines.
-// `ok` says whether the the grid fits in the maximum width informed. If false, ignore the other values.
-func (g Grid) FitIntoColumns(max uint) (widths []uint, lines uint, ok bool) {
+// `dim` represents the dimensions of the grid, used for formatting. See `Dimensions`.
+// `ok` says whether the the grid fits in the maximum width informed. If false, discard `dim`.
+func (g Grid) FitIntoColumns(max uint) (dim Dimensions, ok bool) {
 	// If the maximum size is zero, it is invalid.
 	if max <= 0 {
-		return nil, 0, false
+		return Dimensions{}, false
 	}
 
 	// `lines` represents the number of lines.
 	// It is the cells count, divided by the number of maximum columns, rounded up.
 	l := divUp(len(g.v), int(max))
-	return g.biggerFromEachColumn(l, int(max)), uint(l), true
+	return Dimensions{g.biggerFromEachColumn(l, int(max)), uint(l), g}, true
 }
 
 func (g Grid) biggerFromEachColumn(lines, columns int) []uint {

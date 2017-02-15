@@ -47,15 +47,8 @@ func (g Grid) Separator() string {
 }
 
 // Add adds a cell to the grid.
-// `s` is the value that will be added.
-func (g *Grid) Add(s string) *Grid {
-	g.v = append(g.v, s)
-	return g
-}
-
-// AddRange adds a slice of cells to the grid.
 // `s` is the values that will be added.
-func (g *Grid) AddRange(s []string) *Grid {
+func (g *Grid) Add(s ...string) *Grid {
 	g.v = append(g.v, s...)
 	return g
 }
@@ -63,18 +56,23 @@ func (g *Grid) AddRange(s []string) *Grid {
 // Insert inserts a value in a specified position in the grid.
 // `i` the position of the value.
 // `s` is the value that will be added.
-func (g *Grid) Insert(i uint, s string) *Grid {
-	g.v = g.v[0 : len(g.v)+1]
-	copy(g.v[i+1:], g.v[i:])
-	g.v[i] = s
+func (g *Grid) Insert(i uint, s ...string) *Grid {
+	ii := int(i)
+	g.v = g.v[0 : len(g.v)+len(s)]
+	copy(g.v[ii+len(s):], g.v[ii:])
+	for si, ss := range s {
+		g.v[ii+si] = ss
+	}
 	return g
 }
 
 // Delete deletes a value in a specified position in the grid.
 // `i` the position of the value.
-func (g *Grid) Delete(i uint) *Grid {
-	copy(g.v[i:], g.v[i+1:])
-	g.v = g.v[0 : len(g.v)+1]
+func (g *Grid) Delete(i ...uint) *Grid {
+	for ii := range i {
+		copy(g.v[ii:], g.v[ii+1:])
+	}
+	g.v = g.v[0 : len(g.v)-len(i)]
 	return g
 }
 

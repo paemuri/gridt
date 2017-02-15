@@ -13,7 +13,7 @@ func FromBidimensional(v []string, m uint, d direction, sep string) ([]uint, uin
 
 	// If the slice is empty, returns empty grid that fits.
 	case 0:
-		return []uint{}, 0, true
+		return []uint{}, 0, false
 
 	// If it has one item, it is validated.
 	case 1:

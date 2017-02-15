@@ -49,9 +49,15 @@ func TestFromBidimensional(t *testing.T) {
 		{[]string{"1234567890"}, 5, TopToBottom, " ", 0, 0, false},
 
 		// List with two cells.
-		{[]string{"1234567890", "1234567890"}, 50, TopToBottom, " ", 2, 1, true},
+		{[]string{"1234567890", "1234567890"}, 30, TopToBottom, " ", 2, 1, true},
 		{[]string{"1234567890", "1234567890"}, 15, TopToBottom, " ", 1, 2, true},
 		{[]string{"1234567890", "1234567890"}, 5, TopToBottom, " ", 0, 0, false},
+
+		// List with three cells.
+		{[]string{"1234567890", "1234567890", "1234567890"}, 50, TopToBottom, " ", 3, 1, true},
+		{[]string{"1234567890", "1234567890", "1234567890"}, 30, TopToBottom, " ", 2, 2, true},
+		{[]string{"1234567890", "1234567890", "1234567890"}, 15, TopToBottom, " ", 1, 3, true},
+		{[]string{"1234567890", "1234567890", "1234567890"}, 5, TopToBottom, " ", 0, 0, false},
 	} {
 		msg := fmtMsg(c.lenWs, c.f)
 		ws, l, f := FromBidimensional(c.v, c.m, c.d, c.s)

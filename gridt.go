@@ -132,7 +132,7 @@ func (g Grid) FitIntoWidth(max uint) (widths []uint, lines uint, ok bool) {
 			for _, width := range widths {
 				sum += int(width)
 			}
-			if sum < free {
+			if sum <= free {
 				return widths, uint(lines), true
 			}
 		}

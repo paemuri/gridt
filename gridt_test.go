@@ -16,8 +16,10 @@ const (
 var (
 	randomLists = [][]string{
 		{"a_value", "another_value", "lots_of_cells", "small_value", "biiiiiiiiiiiig_vaaaaaaaaaalue", "with spaces, it's better to read", "abc", "123", "baby_u_n_me", "bla bla blablablablab", "I see the endings, now", "nothing is broken"},
-		{"a", "b", "ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"},
 		{"aaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaaa", "b", "c"},
+		{"a", "bbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbbb", "c"},
+		{"a", "b", "ccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccccc"},
+		{"aaaaa", "b", "c", "d", "e", "f", "g", "h", "i"},
 	}
 )
 
@@ -86,6 +88,10 @@ func TestFitIntoWidth(t *testing.T) {
 		{randomLists[1], 100, LeftToRight, "^-._,^-._,^-._,^-._,^-._,^-._,^", 1, 3, true},
 		{randomLists[2], 100, TopToBottom, "^-._,^-._,^-._,^-._,^-._,^-._,^", 1, 3, true},
 		{randomLists[2], 100, LeftToRight, "^-._,^-._,^-._,^-._,^-._,^-._,^", 1, 3, true},
+		{randomLists[3], 100, TopToBottom, "^-._,^-._,^-._,^-._,^-._,^-._,^", 1, 3, true},
+		{randomLists[3], 100, LeftToRight, "^-._,^-._,^-._,^-._,^-._,^-._,^", 1, 3, true},
+		{randomLists[4], 9, TopToBottom, " ", 3, 3, true},
+		{randomLists[4], 9, LeftToRight, " ", 3, 3, true},
 	} {
 		msg := fmtMsg(i, c.c, c.f)
 		ws, l, f := NewWithCells(c.d, c.s, c.v...).FitIntoWidth(c.m)

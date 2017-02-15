@@ -1,48 +1,68 @@
 package gridt
 
 const (
+	// LeftToRight is a direction in which the values will be written.
 	LeftToRight direction = iota
+	// TopToBottom is a direction in which the values will be written.
 	TopToBottom
 )
 
 type direction int8
 
+// Grid represents the values' grid, that will be exported as a pretty formatted string.
 type Grid struct {
 	v   []string
 	d   direction
 	sep string
 }
 
+// New returns a new Grid.
+// `d` represents the direction in which the values will be written.
+// `sep` represents the separator; a string that will be between each column.
 func New(d direction, sep string) *Grid {
 	return NewWithSize(d, sep, 0)
 }
 
+// NewWithSize returns a new Grid, with a pre-defined size of cells.
+// `d` represents the direction in which the values will be written.
+// `sep` represents the separator; a string that will be between each column.
+// `size` is the pre-defined size of cells.
 func NewWithSize(d direction, sep string, size uint) *Grid {
 	return &Grid{make([]string, size), d, sep}
 }
 
+// Cells returns all cells of the grid.
 func (g Grid) Cells() []string {
 	return g.v
 }
 
+// Direction returns the direction in which the grid will be written.
 func (g Grid) Direction() direction {
 	return g.d
 }
 
+// Separator returns the separator; the string that will be between each column.
 func (g Grid) Separator() string {
 	return g.sep
 }
 
+// Add adds a cell to the grid.
+// `s` is the value that will be added.
 func (g *Grid) Add(s string) *Grid {
 	g.v = append(g.v, s)
 	return g
 }
 
+// AddRange adds a slice of cells to the grid.
+// `s` is the values that will be added.
 func (g *Grid) AddRange(s []string) *Grid {
 	g.v = append(g.v, s...)
 	return g
 }
 
+// Insert inserts a value in a specified position in the grid.
+// `i` the position of the value.
+// `s` is the value that will be added.
 func (g *Grid) Insert(i uint, s string) *Grid {
 	g.v = g.v[0 : len(g.v)+1]
 	copy(g.v[i+1:], g.v[i:])
@@ -50,13 +70,20 @@ func (g *Grid) Insert(i uint, s string) *Grid {
 	return g
 }
 
+// Delete deletes a value in a specified position in the grid.
+// `i` the position of the value.
 func (g *Grid) Delete(i uint) *Grid {
 	copy(g.v[i:], g.v[i+1:])
 	g.v = g.v[0 : len(g.v)+1]
 	return g
 }
 
-func (g Grid) FitIntoWidth(max uint) ([]uint, uint, bool) {
+// FitIntoWidth formats the grid, based on a maximum width.
+// `max` represents the maximum width of the grid, based on characters.
+// `widths` represents the size, by characters, of each column. `len(widths)` works as the number of columns.
+// `lines` represents the number of lines.
+// `ok` says whether the the grid fits in the maximum width informed. If false, ignore the other values.
+func (g Grid) FitIntoWidth(max uint) (widths []uint, lines uint, ok bool) {
 	switch count := len(g.v); count {
 
 	// If the slice is empty, returns empty grid that fits.
@@ -115,7 +142,12 @@ func (g Grid) FitIntoWidth(max uint) ([]uint, uint, bool) {
 	}
 }
 
-func (g Grid) FitIntoColumns(max uint) ([]uint, uint, bool) {
+// FitIntoColumns formats the grid, based on a maximum quantity of columns.
+// `max` represents the maximum quantity of columns of the grid.
+// `widths` represents the size, by characters, of each column. `len(widths)` works as the number of columns.
+// `lines` represents the number of lines.
+// `ok` says whether the the grid fits in the maximum width informed. If false, ignore the other values.
+func (g Grid) FitIntoColumns(max uint) (widths []uint, lines uint, ok bool) {
 	// If the maximum size is zero, it is invalid.
 	if max <= 0 {
 		return nil, 0, false
@@ -124,11 +156,11 @@ func (g Grid) FitIntoColumns(max uint) ([]uint, uint, bool) {
 	// `lines` represents the number of lines.
 	// It is the cells count, divided by the number of maximum columns, rounded up.
 	m := int(max)
-	lines := len(g.v) / m
+	l := len(g.v) / m
 	if len(g.v)%m != 0 {
-		lines++
+		l++
 	}
-	return g.biggerFromEachColumn(lines, m), uint(lines), true
+	return g.biggerFromEachColumn(l, m), uint(l), true
 }
 
 func (g Grid) biggerFromEachColumn(lines, columns int) []uint {

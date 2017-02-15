@@ -40,13 +40,13 @@ func fmtMsg(len int, f bool) string {
 
 func TestFitIntoWidth(t *testing.T) {
 	for _, c := range []struct {
-		v []string  // cells' values
-		m uint      // maximum width
-		d direction // direction
-		s string    // separator
-		c int       // columns
-		l uint      // lines
-		f bool      // if it fits
+		v []string  //=> cells' values
+		m uint      //=> maximum width
+		d direction //=> direction
+		s string    //=> separator
+		c int       //=> columns
+		l uint      //=> lines
+		f bool      //=> if it fits
 	}{
 		// Empty lists.
 		{commonLists[0], 10, TopToBottom, " ", 0, 0, false},

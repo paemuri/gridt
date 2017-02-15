@@ -1,6 +1,7 @@
 package gridt
 
 import (
+	"fmt"
 	"testing"
 )
 
@@ -12,59 +13,51 @@ const (
 	fatalMsgf = logMsgf + "\nwidths = %v\nfit = %v"
 )
 
-func end(passed bool, msg string, ws []uint, f bool, t *testing.T) {
-	if !passed {
-		t.Fatalf(fatalMsgf, msg, ballotX, ws, f)
+func fmtMsg(len int, f bool) string {
+	var list, fit string
+	switch len {
+	case 0:
+		list = "n empty list of widths"
+	case 1:
+		list = " list with 1 width"
+	default:
+		list = fmt.Sprintf(" list with %d widths", len)
 	}
-	t.Logf(logMsgf, msg, checkMark)
+	if f {
+		fit = "fits"
+	} else {
+		fit = "does not fit"
+	}
+	return fmt.Sprintf("Should return a%s that %s", list, fit)
 }
 
 func TestFromBidimensional(t *testing.T) {
-	var msg string
-	var passed, f bool
-	var l uint
-	var ws []uint
+	for _, c := range []struct {
+		v     []string
+		m     uint
+		d     direction
+		s     string
+		lenWs int
+		l     uint
+		f     bool
+	}{
+		// Empty list.
+		{[]string{}, 10, TopToBottom, " ", 0, 0, true},
 
-	t.Run("EmptyList", func(t *testing.T) {
-		msg = "Should return an empty list of widths that fits"
-		ws, l, f = FromBidimensional([]string{}, 10, TopToBottom, " ")
-		passed = len(ws) == 0 && l == 0 && f
-		end(passed, msg, ws, f, t)
-	})
+		// List with one cell.
+		{[]string{"1234567890"}, 20, TopToBottom, " ", 1, 1, true},
+		{[]string{"1234567890"}, 5, TopToBottom, " ", 0, 0, false},
 
-	t.Run("OneItem", func(t *testing.T) {
-		t.Run("SufficientSize", func(t *testing.T) {
-			msg = "Should return a list with one width that fits"
-			ws, l, f = FromBidimensional([]string{"1234567890"}, 20, TopToBottom, " ")
-			passed = len(ws) == 1 && l == 1 && f
-			end(passed, msg, ws, f, t)
-		})
-		t.Run("UnsufficientSize", func(t *testing.T) {
-			msg = "Should return an empty list that does not fit"
-			ws, l, f = FromBidimensional([]string{"1234567890"}, 5, TopToBottom, " ")
-			passed = len(ws) == 0 && l == 0 && !f
-			end(passed, msg, ws, f, t)
-		})
-	})
-
-	t.Run("TwoItems", func(t *testing.T) {
-		t.Run("SufficientSizeForTwoColumns", func(t *testing.T) {
-			msg = "Should return a list with two widths that fits"
-			ws, l, f = FromBidimensional([]string{"1234567890", "1234567890"}, 50, TopToBottom, " ")
-			passed = len(ws) == 2 && l == 1 && f
-			end(passed, msg, ws, f, t)
-		})
-		t.Run("SufficientSizeForOneColumn", func(t *testing.T) {
-			msg = "Should return a list with one width that fits"
-			ws, l, f = FromBidimensional([]string{"1234567890", "1234567890"}, 15, TopToBottom, " ")
-			passed = len(ws) == 1 && l == 2 && f
-			end(passed, msg, ws, f, t)
-		})
-		t.Run("UnsufficientSizeFor", func(t *testing.T) {
-			msg = "Should return an empty list that does not fit"
-			ws, l, f = FromBidimensional([]string{"1234567890", "1234567890"}, 5, TopToBottom, " ")
-			passed = len(ws) == 0 && l == 0 && !f
-			end(passed, msg, ws, f, t)
-		})
-	})
+		// List with two cells.
+		{[]string{"1234567890", "1234567890"}, 50, TopToBottom, " ", 2, 1, true},
+		{[]string{"1234567890", "1234567890"}, 15, TopToBottom, " ", 1, 2, true},
+		{[]string{"1234567890", "1234567890"}, 5, TopToBottom, " ", 0, 0, false},
+	} {
+		msg := fmtMsg(c.lenWs, c.f)
+		ws, l, f := FromBidimensional(c.v, c.m, c.d, c.s)
+		if len(ws) != c.lenWs || l != c.l || f != c.f {
+			t.Fatalf(fatalMsgf, msg, ballotX, ws, f)
+		}
+		t.Logf(logMsgf, msg, checkMark)
+	}
 }

@@ -44,7 +44,7 @@ func TestFitIntoWidth(t *testing.T) {
 	for _, c := range []struct {
 		v []string  //=> cells' values
 		m uint      //=> maximum width
-		d direction //=> direction
+		d Direction //=> direction
 		s string    //=> separator
 		c int       //=> columns
 		l uint      //=> lines

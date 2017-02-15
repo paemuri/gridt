@@ -1,6 +1,7 @@
 # Gridt
 
-Display contents as a grid in the terminal (or any place you want to write it). This lib formats bidimensional lists as grids, with well-defined columns, for the sake of readability.
+Display contents as a grid in the terminal (or any place you want to write it).
+This library formats bidimensional lists as grids, with well-defined columns, suitable for fixed-width fonts, for the sake of readability.
 
 Inspired by [ogham/rust-term-grid][1] and by the fact that I needed it for [Nhanderu/ipe][2].
 

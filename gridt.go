@@ -2,24 +2,29 @@ package gridt
 
 const (
 	// LeftToRight is a direction in which the values will be written.
-	LeftToRight direction = iota
+	// It goes from the first cell (0,0) to the end of the line, returning to the beggining of the second line.
+	// Exactly the same as a typewritter.
+	LeftToRight Direction = iota
 	// TopToBottom is a direction in which the values will be written.
+	// It goes from the first cell (0,0) to the bottom of the column, returning to the top of the second column.
+	// Exactly the same as how `ls` command works by default.
 	TopToBottom
 )
 
-type direction int8
+// Direction represents the direction in which the values will be written.
+type Direction int8
 
 // Grid represents the values' grid, that will be exported as a pretty formatted string.
 type Grid struct {
 	v   []string
-	d   direction
+	d   Direction
 	sep string
 }
 
 // New returns a new Grid.
 // `d` represents the direction in which the values will be written.
 // `sep` represents the separator; a string that will be between each column.
-func New(d direction, sep string) *Grid {
+func New(d Direction, sep string) *Grid {
 	return NewWithSize(d, sep, 0)
 }
 
@@ -27,7 +32,7 @@ func New(d direction, sep string) *Grid {
 // `d` represents the direction in which the values will be written.
 // `sep` represents the separator; a string that will be between each column.
 // `size` is the pre-defined size of cells.
-func NewWithSize(d direction, sep string, size uint) *Grid {
+func NewWithSize(d Direction, sep string, size uint) *Grid {
 	return &Grid{make([]string, size), d, sep}
 }
 
@@ -35,7 +40,7 @@ func NewWithSize(d direction, sep string, size uint) *Grid {
 // `d` represents the direction in which the values will be written.
 // `sep` represents the separator; a string that will be between each column.
 // `s` is the cells that will be added.
-func NewWithCells(d direction, sep string, s ...string) *Grid {
+func NewWithCells(d Direction, sep string, s ...string) *Grid {
 	return NewWithSize(d, sep, uint(len(s))).Add(s...)
 }
 
@@ -45,7 +50,7 @@ func (g Grid) Cells() []string {
 }
 
 // Direction returns the direction in which the grid will be written.
-func (g Grid) Direction() direction {
+func (g Grid) Direction() Direction {
 	return g.d
 }
 

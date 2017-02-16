@@ -1,9 +1,8 @@
 package main
 
 import (
-	"os"
-
 	"fmt"
+	"os"
 
 	"github.com/Nhanderu/gridt"
 	"github.com/Nhanderu/trena"

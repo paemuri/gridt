@@ -1,5 +1,9 @@
 package gridt
 
+import (
+	runewidth "github.com/mattn/go-runewidth"
+)
+
 const (
 	// LeftToRight is a direction in which the values will be written.
 	// It goes from the first cell (0,0) to the end of the line, returning to the beggining of the second line.
@@ -94,7 +98,7 @@ func (g Grid) FitIntoWidth(max uint) (dim Dimensions, ok bool) {
 
 	// If it has one item, it is validated.
 	case 1:
-		if l := uint(len(g.v[0])); l <= max {
+		if l := uint(runewidth.StringWidth(g.v[0])); l <= max {
 			return Dimensions{[]uint{l}, 1, g}, true
 		}
 		return Dimensions{}, false
@@ -118,7 +122,7 @@ func (g Grid) FitIntoWidth(max uint) (dim Dimensions, ok bool) {
 			// Calculates the free space...
 			// Which is the maximum size, minus the total width of all the separators.
 			// If there is no free space, this possibility is ignored.
-			free := int(max) - ((columns - 1) * len(g.sep))
+			free := int(max) - ((columns - 1) * runewidth.StringWidth(g.sep))
 			if free < 0 {
 				continue
 			}
@@ -175,7 +179,7 @@ func (g Grid) biggerFromEachColumn(lines, columns int) []uint {
 		// Now, `i` represents the index of the column (or cell on the line).
 		// `widths[i]` is substituted by the current value, if the latter is bigger.
 		// `widths[i]` represents the bigger value on the `i` column.
-		if l := uint(len(vv)); l > widths[i] {
+		if l := uint(runewidth.StringWidth(vv)); l > widths[i] {
 			widths[i] = l
 		}
 	}

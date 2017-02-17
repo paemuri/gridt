@@ -3,6 +3,8 @@ package gridt
 import (
 	"bytes"
 	"strings"
+
+	runewidth "github.com/mattn/go-runewidth"
 )
 
 // Dimensions contains the dimensions of the grid and the possibility to format it.
@@ -29,6 +31,7 @@ func (d Dimensions) Columns() uint {
 
 // String formats the grid into a string.
 func (d Dimensions) String() string {
+	cols := len(d.ws)
 	var buf bytes.Buffer
 	switch d.g.d {
 	case TopToBottom:
@@ -43,14 +46,14 @@ func (d Dimensions) String() string {
 				counter++
 			}
 			linesBuf[counter].WriteString(cell)
-			linesBuf[counter].WriteString(strings.Repeat(" ", int(d.ws[i])-len(cell)))
-			if len(d.ws) != i+1 {
+			linesBuf[counter].WriteString(strings.Repeat(" ", int(d.ws[i])-runewidth.StringWidth(cell)))
+			if cols != i+1 {
 				linesBuf[counter].WriteString(d.g.sep)
 			}
 		}
 		if counter != int(d.l) {
 			for counter++; counter < int(d.l); counter++ {
-				linesBuf[counter].WriteString(strings.Repeat(" ", int(d.ws[len(d.ws)-1])))
+				linesBuf[counter].WriteString(strings.Repeat(" ", int(d.ws[cols-1])))
 			}
 		}
 		for i, b := range linesBuf {
@@ -63,19 +66,19 @@ func (d Dimensions) String() string {
 		var i int
 		var cell string
 		for i, cell = range d.g.v {
-			col := i % len(d.ws)
+			col := i % cols
 			buf.WriteString(cell)
-			buf.WriteString(strings.Repeat(" ", int(d.ws[col])-len(cell)))
+			buf.WriteString(strings.Repeat(" ", int(d.ws[col])-runewidth.StringWidth(cell)))
 			if i+1 != len(d.g.v) {
-				if len(d.ws) == col+1 {
+				if cols == col+1 {
 					buf.WriteRune('\n')
 				} else {
 					buf.WriteString(d.g.sep)
 				}
 			}
 		}
-		if rest := i % len(d.ws); rest != 0 {
-			for rest++; rest < len(d.ws); rest++ {
+		if rest := i % cols; rest != 0 {
+			for rest++; rest < cols; rest++ {
 				buf.WriteString(d.g.sep)
 				buf.WriteString(strings.Repeat(" ", int(d.ws[rest])))
 			}

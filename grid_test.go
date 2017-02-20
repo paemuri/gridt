@@ -94,9 +94,9 @@ func TestFitIntoWidth(t *testing.T) {
 		{randomLists[4], 9, LeftToRight, " ", 3, 3, true},
 	} {
 		msg := fmtMsg(i, c.c, c.f)
-		ws, l, f := NewWithCells(c.d, c.s, c.v...).FitIntoWidth(c.m)
-		if len(ws) != c.c || l != c.l || f != c.f {
-			t.Fatalf(fatalMsgf, msg, ballotX, ws, l, f)
+		d, f := NewWithCells(c.d, c.s, c.v...).FitIntoWidth(c.m)
+		if len(d.ws) != c.c || d.l != c.l || f != c.f {
+			t.Fatalf(fatalMsgf, msg, ballotX, d.ws, d.l, f)
 		}
 		t.Logf(logMsgf, msg, checkMark)
 	}

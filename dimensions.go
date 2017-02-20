@@ -29,8 +29,8 @@ func (d Dimensions) Columns() uint {
 	return uint(len(d.ws))
 }
 
-// String formats the grid into a string.
-func (d Dimensions) String() string {
+// OldString formats the grid into a string.
+func (d Dimensions) OldString() string {
 	cols := len(d.ws)
 	var buf bytes.Buffer
 	switch d.g.d {
@@ -83,6 +83,34 @@ func (d Dimensions) String() string {
 				buf.WriteString(strings.Repeat(" ", int(d.ws[rest])))
 			}
 		}
+	}
+	return buf.String()
+}
+
+// String formats the grid into a string.
+func (d Dimensions) String() string {
+	var buf bytes.Buffer
+	c := len(d.ws)
+	for line := 0; line < int(d.l); line++ {
+		for column := 0; column < c; column++ {
+			var i int
+			switch d.g.d {
+			case LeftToRight:
+				i = line*c + column
+			case TopToBottom:
+				i = line + c*column
+			}
+
+			if i >= len(d.g.v) {
+				continue
+			}
+
+			cell := d.g.v[i]
+			buf.WriteString(cell)
+			buf.WriteString(strings.Repeat(" ", int(d.ws[column])-runewidth.StringWidth(cell)))
+			buf.WriteString(d.g.sep)
+		}
+		buf.WriteRune('\n')
 	}
 	return buf.String()
 }

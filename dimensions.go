@@ -98,7 +98,7 @@ func (d Dimensions) String() string {
 			case LeftToRight:
 				i = line*c + column
 			case TopToBottom:
-				i = line + c*column
+				i = line + int(d.l)*column
 			}
 
 			if i >= len(d.g.v) {

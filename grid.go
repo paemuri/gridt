@@ -6,7 +6,7 @@ import (
 
 const (
 	// LeftToRight is a direction in which the values will be written.
-	// It goes from the first cell (0,0) to the end of the line, returning to the beggining of the second line.
+	// It goes from the first cell (0,0) to the end of the line, returning to the beginning of the second line.
 	// Exactly the same as a typewritter.
 	LeftToRight Direction = iota
 	// TopToBottom is a direction in which the values will be written.

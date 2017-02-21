@@ -65,20 +65,19 @@ func (g *Grid) Add(s ...string) *Grid {
 // Insert inserts a value in a specified position in the grid.
 // `i` the position of the value.
 // `s` is the value that will be added.
-func (g *Grid) Insert(i uint, s ...string) *Grid {
-	ii := int(i)
+func (g *Grid) Insert(i int, s ...string) *Grid {
 	g.v = g.v[0 : len(g.v)+len(s)]
-	copy(g.v[ii+len(s):], g.v[ii:])
+	copy(g.v[i+len(s):], g.v[i:])
 	for si, ss := range s {
-		g.v[ii+si] = ss
+		g.v[i+si] = ss
 	}
 	return g
 }
 
 // Delete deletes a value in a specified position in the grid.
 // `i` the position of the value.
-func (g *Grid) Delete(i ...uint) *Grid {
-	for ii := range i {
+func (g *Grid) Delete(i ...int) *Grid {
+	for _, ii := range i {
 		copy(g.v[ii:], g.v[ii+1:])
 	}
 	g.v = g.v[0 : len(g.v)-len(i)]
@@ -89,7 +88,7 @@ func (g *Grid) Delete(i ...uint) *Grid {
 // `max` represents the maximum width of the grid, based on characters.
 // `dim` represents the dimensions of the grid, used for formatting. See `Dimensions`.
 // `ok` says whether the the grid fits in the maximum width informed. If false, discard `dim`.
-func (g Grid) FitIntoWidth(max uint) (dim Dimensions, ok bool) {
+func (g Grid) FitIntoWidth(max int) (dim Dimensions, ok bool) {
 	switch count := len(g.v); count {
 
 	// If the slice is empty, returns empty grid that fits.
@@ -98,8 +97,8 @@ func (g Grid) FitIntoWidth(max uint) (dim Dimensions, ok bool) {
 
 	// If it has one item, it is validated.
 	case 1:
-		if l := uint(runewidth.StringWidth(g.v[0])); l <= max {
-			return Dimensions{[]uint{l}, 1, g}, true
+		if l := runewidth.StringWidth(g.v[0]); l <= max {
+			return Dimensions{[]int{l}, 1, g}, true
 		}
 		return Dimensions{}, false
 
@@ -122,7 +121,7 @@ func (g Grid) FitIntoWidth(max uint) (dim Dimensions, ok bool) {
 			// Calculates the free space...
 			// Which is the maximum size, minus the total width of all the separators.
 			// If there is no free space, this possibility is ignored.
-			free := int(max) - ((columns - 1) * runewidth.StringWidth(g.sep))
+			free := max - ((columns - 1) * runewidth.StringWidth(g.sep))
 			if free < 0 {
 				continue
 			}
@@ -133,10 +132,10 @@ func (g Grid) FitIntoWidth(max uint) (dim Dimensions, ok bool) {
 			// If the sum of all widths fits the free space, then the possibility is reality!
 			var sum int
 			for _, width := range widths {
-				sum += int(width)
+				sum += width
 			}
 			if sum <= free {
-				return Dimensions{widths, uint(lines), g}, true
+				return Dimensions{widths, lines, g}, true
 			}
 		}
 
@@ -149,7 +148,7 @@ func (g Grid) FitIntoWidth(max uint) (dim Dimensions, ok bool) {
 // `max` represents the maximum quantity of columns of the grid.
 // `dim` represents the dimensions of the grid, used for formatting. See `Dimensions`.
 // `ok` says whether the the grid fits in the maximum width informed. If false, discard `dim`.
-func (g Grid) FitIntoColumns(max uint) (dim Dimensions, ok bool) {
+func (g Grid) FitIntoColumns(max int) (dim Dimensions, ok bool) {
 	// If the maximum size is zero, it is invalid.
 	if max <= 0 {
 		return Dimensions{}, false
@@ -157,13 +156,13 @@ func (g Grid) FitIntoColumns(max uint) (dim Dimensions, ok bool) {
 
 	// `lines` represents the number of lines.
 	// It is the cells count, divided by the number of maximum columns, rounded up.
-	l := divUp(len(g.v), int(max))
-	return Dimensions{g.biggerFromEachColumn(l, int(max)), uint(l), g}, true
+	l := divUp(len(g.v), max)
+	return Dimensions{g.biggerFromEachColumn(l, max), l, g}, true
 }
 
-func (g Grid) biggerFromEachColumn(lines, columns int) []uint {
+func (g Grid) biggerFromEachColumn(lines, columns int) []int {
 	// Creates a slice of the widths of the columns.
-	widths := make([]uint, columns)
+	widths := make([]int, columns)
 	for i, vv := range g.v {
 		// `v` represents the list of values.
 		// `widths` represents the list of columns' widths.
@@ -179,7 +178,7 @@ func (g Grid) biggerFromEachColumn(lines, columns int) []uint {
 		// Now, `i` represents the index of the column (or cell on the line).
 		// `widths[i]` is substituted by the current value, if the latter is bigger.
 		// `widths[i]` represents the bigger value on the `i` column.
-		if l := uint(runewidth.StringWidth(vv)); l > widths[i] {
+		if l := runewidth.StringWidth(vv); l > widths[i] {
 			widths[i] = l
 		}
 	}

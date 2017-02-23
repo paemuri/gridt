@@ -41,6 +41,14 @@ func fmtMsg(i, ii, len int, f bool) string {
 }
 
 func TestFitIntoWidth(t *testing.T) {
+	gridTestFitInto(t, func(g *Grid, c, w int) (Dimensions, bool) { return g.FitIntoWidth(w) })
+
+}
+func TestFitIntoColumns(t *testing.T) {
+	gridTestFitInto(t, func(g *Grid, c, w int) (Dimensions, bool) { return g.FitIntoColumns(c) })
+}
+
+func gridTestFitInto(t *testing.T, test func(g *Grid, c, w int) (Dimensions, bool)) {
 	for i, c := range []struct {
 		v []string  //=> cells' values
 		m int       //=> maximum width
@@ -107,7 +115,7 @@ func TestFitIntoWidth(t *testing.T) {
 			gNewInsertDelete,
 		} {
 			msg := fmtMsg(i, ii, c.c, c.f)
-			d, f := g.FitIntoWidth(c.m)
+			d, f := test(g, c.c, c.m)
 			cellsOk := len(c.v) == len(g.Cells())
 			for i, cell := range g.Cells() {
 				if c.v[i] != cell {

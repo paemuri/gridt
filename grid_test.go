@@ -65,6 +65,8 @@ func gridTestFitInto(t *testing.T, test func(g *Grid, c, w int) (Dimensions, boo
 		// Invalid maximum size.
 		{fixedList(10), 0, TopToBottom, " ", 0, 0, false},
 		{fixedList(10), 0, LeftToRight, " ", 0, 0, false},
+		{fixedList(10), -10, TopToBottom, " ", 0, 0, false},
+		{fixedList(10), -10, LeftToRight, " ", 0, 0, false},
 
 		// Lists with one cell.
 		{fixedList(1), 20, TopToBottom, " ", 1, 1, true},

@@ -28,16 +28,9 @@ type Grid struct {
 // New returns a new Grid.
 // `d` represents the direction in which the values will be written.
 // `sep` represents the separator; a string that will be between each column.
-func New(d Direction, sep string) *Grid {
-	return &Grid{make([]string, 0), d, sep}
-}
-
-// NewWithCells returns a new Grid, with pre-defined cells.
-// `d` represents the direction in which the values will be written.
-// `sep` represents the separator; a string that will be between each column.
-// `s` is the cells that will be added.
-func NewWithCells(d Direction, sep string, s ...string) *Grid {
-	return New(d, sep).Add(s...)
+// `s` is the cells that will be added right after initialization.
+func New(d Direction, sep string, s ...string) *Grid {
+	return (&Grid{make([]string, 0), d, sep}).Add(s...)
 }
 
 // Cells returns all cells of the grid.

@@ -104,17 +104,17 @@ func gridTestFitInto(t *testing.T, test func(g *Grid, c, w int) (Dimensions, boo
 		{randomLists[4], 9, TopToBottom, " ", 3, 3, true},
 		{randomLists[4], 9, LeftToRight, " ", 3, 3, true},
 	} {
-		gNewWithCells := NewWithCells(c.d, c.s, c.v...)
+		gNew := New(c.d, c.s, c.v...)
 		gNewAdd := New(c.d, c.s).Add(c.v...)
-		gNewInsertDelete := NewWithCells(c.d, c.s, c.v...)
+		gNewDeleteInsert := New(c.d, c.s, c.v...)
 		for i, v := range c.v {
-			gNewInsertDelete.Delete(i)
-			gNewInsertDelete.Insert(i, v)
+			gNewDeleteInsert.Delete(i)
+			gNewDeleteInsert.Insert(i, v)
 		}
 		for ii, g := range []*Grid{
-			gNewWithCells,
+			gNew,
 			gNewAdd,
-			gNewInsertDelete,
+			gNewDeleteInsert,
 		} {
 			msg := fmtMsg(i, ii, c.c, c.f)
 			d, f := test(g, c.c, c.m)

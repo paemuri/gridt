@@ -6,9 +6,6 @@ import (
 )
 
 const (
-	checkMark = "\u2713"
-	ballotX   = "\u2717"
-
 	logMsgf   = "\n%s: %s"
 	fatalMsgf = logMsgf + "\ncolumns = %v\nlines = %v\nfit = %v"
 )

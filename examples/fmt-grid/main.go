@@ -15,7 +15,7 @@ func main() {
 		fmt.Println(err.Error())
 		os.Exit(1)
 	}
-	grid, ok := gridt.NewWithCells(gridt.TopToBottom, "  ", os.Args[1:]...).FitIntoWidth(uint(width))
+	grid, ok := gridt.NewWithCells(gridt.TopToBottom, "  ", os.Args[1:]...).FitIntoWidth(width)
 	if !ok {
 		fmt.Println("The arguments does not fit in the terminal width!")
 		os.Exit(1)

@@ -91,7 +91,7 @@ func (g *Grid) Delete(i ...int) *Grid {
 func (g Grid) FitIntoWidth(max int) (dim Dimensions, ok bool) {
 	switch count := len(g.v); count {
 
-	// If the slice is empty, returns empty grid that fits.
+	// If the slice is empty, returns empty grid that does not fit.
 	case 0:
 		return Dimensions{}, false
 

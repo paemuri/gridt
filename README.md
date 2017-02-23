@@ -1,7 +1,9 @@
 # Gridt
 
+[![Build Status][tag1img]][tag1link]
 [![GoDoc][tag2img]][tag2link]
 [![Go Report Card][tag3img]][tag3link]
+[![codecov][tag4img]][tag4link]
 
 Display contents as a grid in the terminal (or any place you want to write it)!
 This library formats unidimensional lists as grids, with well-defined columns, suitable for fixed-width fonts, for the sake of readability.

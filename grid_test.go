@@ -28,7 +28,7 @@ func fixedList(n int) []string {
 	return s
 }
 
-func fmtMsg(i, len int, f bool) string {
+func fmtMsg(i, ii, len int, f bool) string {
 	var list, fit string
 	if !f {
 		list = "n empty list"
@@ -37,7 +37,7 @@ func fmtMsg(i, len int, f bool) string {
 		fit = "fits"
 		list = fmt.Sprintf(" list with %d column(s)", len)
 	}
-	return fmt.Sprintf("#%d Should return a%s that %s", i, list, fit)
+	return fmt.Sprintf("#%d #%d Should return a%s that %s", i, ii, list, fit)
 }
 
 func TestFitIntoWidth(t *testing.T) {
@@ -59,6 +59,10 @@ func TestFitIntoWidth(t *testing.T) {
 		{fixedList(1), 5, TopToBottom, " ", 0, 0, false},
 		{fixedList(1), 20, LeftToRight, " ", 1, 1, true},
 		{fixedList(1), 5, LeftToRight, " ", 0, 0, false},
+
+		// Invalid maximum size.
+		{fixedList(1), 0, TopToBottom, " ", 0, 0, false},
+		{fixedList(1), 0, LeftToRight, " ", 0, 0, false},
 
 		// Lists with two cells.
 		{fixedList(2), 30, TopToBottom, " ", 2, 1, true},
@@ -90,11 +94,35 @@ func TestFitIntoWidth(t *testing.T) {
 		{randomLists[4], 9, TopToBottom, " ", 3, 3, true},
 		{randomLists[4], 9, LeftToRight, " ", 3, 3, true},
 	} {
-		msg := fmtMsg(i, c.c, c.f)
-		d, f := NewWithCells(c.d, c.s, c.v...).FitIntoWidth(c.m)
-		if len(d.ws) != c.c || d.l != c.l || f != c.f {
-			t.Fatalf(fatalMsgf, msg, ballotX, d.ws, d.l, f)
+		gNewWithCells := NewWithCells(c.d, c.s, c.v...)
+		gNewAdd := New(c.d, c.s).Add(c.v...)
+		gNewInsertDelete := NewWithCells(c.d, c.s, c.v...)
+		for i, v := range c.v {
+			gNewInsertDelete.Delete(i)
+			gNewInsertDelete.Insert(i, v)
 		}
-		t.Logf(logMsgf, msg, checkMark)
+		for ii, g := range []*Grid{
+			gNewWithCells,
+			gNewAdd,
+			gNewInsertDelete,
+		} {
+			msg := fmtMsg(i, ii, c.c, c.f)
+			d, f := g.FitIntoWidth(c.m)
+			cellsOk := len(c.v) == len(g.Cells())
+			for i, cell := range g.Cells() {
+				if c.v[i] != cell {
+					cellsOk = false
+					break
+				}
+			}
+			if g.Direction() != c.d ||
+				g.Separator() != c.s ||
+				!cellsOk ||
+				d.l != c.l ||
+				f != c.f {
+				t.Fatalf(fatalMsgf, msg, ballotX, d.ws, d.l, f)
+			}
+			t.Logf(logMsgf, msg, checkMark)
+		}
 	}
 }

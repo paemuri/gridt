@@ -6,7 +6,7 @@
 [![codecov][tag4img]][tag4link]
 
 Display contents as a grid in the terminal (or any place you want to write it)!
-This library formats unidimensional lists as grids, with well-defined columns, suitable for fixed-width fonts, for the sake of readability.
+This library formats unidimensional lists (slices) as grids, with well-defined columns, suitable for fixed-width fonts, for the sake of readability.
 
 Inspired by [ogham/rust-term-grid][1] and by the fact that I needed it for [Nhanderu/ipe][2].
 

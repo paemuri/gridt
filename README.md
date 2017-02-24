@@ -39,7 +39,7 @@ if ok {
 // But also, you can do a lot more!
 
 // Create a grid with pre-defined cells...
-grid := gridt.New(gridt.TopToBottom, "  ", "cell1", "cell2", "cell3")
+grid := gridt.New(gridt.LeftToRight, "  ", "cell1", "cell2", "cell3")
 
 // Manipulate the cells...
 grid.Add("cell4", "cell5", "cell6")

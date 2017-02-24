@@ -20,6 +20,37 @@ Inspired by [ogham/rust-term-grid][1] and by the fact that I needed it for [Nhan
 
 ![What we want](./.assets/what-we-want.png "What we want")
 
+### Usage
+
+```go
+// Just create an empty grid...
+grid := gridt.New(gridt.TopToBottom, "  ")
+
+// Verify if it fits in a determined width...
+dim, ok := grid.FitIntoWidth(100)
+
+// And get its string!
+if ok {
+  fmt.Print(dim.String())
+}
+```
+
+```go
+// But also, you can do a lot more!
+
+// Create a grid with pre-defined cells...
+grid := gridt.New(gridt.TopToBottom, "  ", "cell1", "cell2", "cell3")
+
+// Manipulate the cells...
+grid.Add("cell4", "cell5", "cell6")
+grid.Insert(2, "cell2.1", "cell2.3")
+grid.Delete(0)
+
+// Base the size of the grid on the number of columns,
+// instead of the number of caracters...
+dim, ok := grid.FitIntoColumns(3)
+```
+
 ### License
 
 This project code is in the public domain. See the [LICENSE file][3].

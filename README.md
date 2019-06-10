@@ -61,8 +61,8 @@ This project code is in the public domain. See the [LICENSE file][3].
 
 [tag1img]: https://travis-ci.org/Nhanderu/gridt.svg?branch=master
 [tag1link]: https://travis-ci.org/Nhanderu/gridt
-[tag2img]: https://godoc.org/gopkg.in/Nhanderu/gridt.v1?status.png
-[tag2link]: https://godoc.org/gopkg.in/Nhanderu/gridt.v1
+[tag2img]: https://godoc.org/github.com/Nhanderu/gridt?status.png
+[tag2link]: https://godoc.org/github.com/Nhanderu/gridt
 [tag3img]: https://goreportcard.com/badge/github.com/Nhanderu/gridt
 [tag3link]: https://goreportcard.com/report/github.com/Nhanderu/gridt
 [tag4img]: https://codecov.io/gh/Nhanderu/gridt/branch/master/graph/badge.svg

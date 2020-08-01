@@ -1,24 +1,27 @@
 # Gridt
 
-[![Build Status][tag1img]][tag1link]
-[![GoDoc][tag2img]][tag2link]
-[![Go Report Card][tag3img]][tag3link]
-[![codecov][tag4img]][tag4link]
+[![License][badge-1-img]][badge-1-link]
+[![go.dev][badge-2-img]][badge-2-link]
+[![Travis CI][badge-3-img]][badge-3-link]
+[![Codecov.io][badge-4-img]][badge-4-link]
+[![Go Report Card][badge-5-img]][badge-5-link]
 
 Display contents as a grid in the terminal (or any place you want to write it)!
-This library formats unidimensional lists (slices) as grids, with well-defined columns, suitable for fixed-width fonts, for the sake of readability.
+This library formats unidimensional lists (slices) as grids, with well-defined
+columns, suitable for fixed-width fonts, for the sake of readability.
 
-Inspired by [ogham/rust-term-grid][1] and by the fact that I needed it for [Nhanderu/ipe][2].
+Inspired by [ogham/rust-term-grid][1] and by the fact that I needed it for
+[Nhanderu/ipe][2].
 
 ### Example
 
 **What we do not want:**
 
-![What we do not want](./.assets/what-we-do-not-want.png "What we do no want")
+![What we do not want](./images/what-we-do-not-want.png "What we do no want")
 
 **What we want:**
 
-![What we want](./.assets/what-we-want.png "What we want")
+![What we want](./images/what-we-want.png "What we want")
 
 ### Usage
 
@@ -57,13 +60,15 @@ This project code is in the public domain. See the [LICENSE file][3].
 
 [1]: https://github.com/ogham/rust-term-grid/
 [2]: https://github.com/Nhanderu/ipe/
-[3]: https://github.com/Nhanderu/gridt/blob/master/LICENSE
+[3]: ./LICENSE
 
-[tag1img]: https://travis-ci.org/Nhanderu/gridt.svg?branch=master
-[tag1link]: https://travis-ci.org/Nhanderu/gridt
-[tag2img]: https://godoc.org/github.com/Nhanderu/gridt?status.png
-[tag2link]: https://godoc.org/github.com/Nhanderu/gridt
-[tag3img]: https://goreportcard.com/badge/github.com/Nhanderu/gridt
-[tag3link]: https://goreportcard.com/report/github.com/Nhanderu/gridt
-[tag4img]: https://codecov.io/gh/Nhanderu/gridt/branch/master/graph/badge.svg
-[tag4link]: https://codecov.io/gh/Nhanderu/gridt
+[badge-1-img]: https://img.shields.io/github/license/Nhanderu/gridt?style=flat-square
+[badge-1-link]: https://github.com/Nhanderu/gridt/blob/master/LICENSE
+[badge-2-img]: https://img.shields.io/badge/go.dev-reference-007d9c?style=flat-square&logo=go&logoColor=white
+[badge-2-link]: https://pkg.go.dev/github.com/Nhanderu/gridt
+[badge-3-img]: https://img.shields.io/travis/Nhanderu/gridt?style=flat-square
+[badge-3-link]: https://travis-ci.org/Nhanderu/gridt
+[badge-4-img]: https://img.shields.io/codecov/c/gh/Nhanderu/gridt?style=flat-square
+[badge-4-link]: https://codecov.io/gh/Nhanderu/gridt
+[badge-5-img]: https://goreportcard.com/badge/github.com/Nhanderu/gridt?style=flat-square
+[badge-5-link]: https://goreportcard.com/report/github.com/Nhanderu/gridt

@@ -13,7 +13,7 @@ columns, suitable for fixed-width fonts, for the sake of readability.
 Inspired by [ogham/rust-term-grid][1] and by the fact that I needed it for
 [Nhanderu/ipe][2].
 
-### Example
+## Example
 
 **What we do not want:**
 
@@ -23,7 +23,7 @@ Inspired by [ogham/rust-term-grid][1] and by the fact that I needed it for
 
 ![What we want](./images/what-we-want.png "What we want")
 
-### Usage
+## Usage
 
 ```go
 // Just create an empty grid...
@@ -54,9 +54,15 @@ grid.Delete(0)
 dim, ok := grid.FitIntoColumns(3)
 ```
 
-### License
+## License
 
 This project code is in the public domain. See the [LICENSE file][3].
+
+### Contribution
+
+Unless you explicitly state otherwise, any contribution intentionally submitted
+for inclusion in the work by you shall be in the public domain, without any
+additional terms or conditions.
 
 [1]: https://github.com/ogham/rust-term-grid/
 [2]: https://github.com/Nhanderu/ipe/

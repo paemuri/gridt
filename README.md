@@ -6,9 +6,12 @@
 [![Codecov.io][badge-4-img]][badge-4-link]
 [![Go Report Card][badge-5-img]][badge-5-link]
 
-Display contents as a grid in the terminal (or any place you want to write it)!
-This library formats unidimensional lists (slices) as grids, with well-defined
-columns, suitable for fixed-width fonts, for the sake of readability.
+Display contents as a grid in the terminal!
+
+Format unidimensional lists (slices) as grids, with well-defined columns,
+suitable for fixed-width fonts, for the sake of readability.
+
+It's both a CLI and a Go library.
 
 Inspired by [ogham/rust-term-grid][1] and by the fact that I needed it for
 [Nhanderu/ipe][2].
@@ -23,7 +26,28 @@ Inspired by [ogham/rust-term-grid][1] and by the fact that I needed it for
 
 ![What we want](./static/images/what-we-want.png "What we want")
 
-## Usage
+## Install
+
+### Brew
+
+```sh
+brew tap Nhanderu/packages
+brew install gridt
+```
+
+### Go
+
+```sh
+go get github.com/Nhanderu/gridt/cmd/gridt
+```
+
+## Run
+
+#### `gridt`
+
+Runs the program with default configuration.
+
+## Library usage
 
 ```go
 // Just create an empty grid...

@@ -44,9 +44,9 @@ func init() {
 
 func main() {
 
-	width, _, err := terminal.GetSize(0)
+	width, _, err := terminal.GetSize(1)
 	if err != nil {
-		eprintln(err.Error())
+		eprintf("Error getting terminal size: %s.", err.Error())
 		os.Exit(1)
 	}
 
@@ -54,7 +54,7 @@ func main() {
 	if *file != "" {
 		f, err := os.Open(*file)
 		if err != nil {
-			eprintf("Error %s.", err.Error())
+			eprintf("Error opening file: %s.", err.Error())
 			os.Exit(1)
 		}
 		defer f.Close()
@@ -72,7 +72,7 @@ func main() {
 	}
 
 	if len(values) == 0 {
-		eprintln("No values were given.")
+		eprintln("Error: no values were given.")
 		os.Exit(1)
 	}
 
@@ -83,7 +83,7 @@ func main() {
 
 	grid, ok := gridt.New(d, *separator, values...).FitIntoWidth(width)
 	if !ok {
-		eprintln("The given values does not fit in the terminal width.")
+		eprintln("Error: the given values does not fit in the terminal width.")
 		os.Exit(1)
 	}
 

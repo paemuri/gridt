@@ -17,11 +17,11 @@ Inspired by [ogham/rust-term-grid][1] and by the fact that I needed it for
 
 **What we do not want:**
 
-![What we do not want](./images/what-we-do-not-want.png "What we do no want")
+![What we do not want](./static/images/what-we-do-not-want.png "What we do no want")
 
 **What we want:**
 
-![What we want](./images/what-we-want.png "What we want")
+![What we want](./static/images/what-we-want.png "What we want")
 
 ## Usage
 

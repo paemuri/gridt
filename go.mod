@@ -1,8 +1,5 @@
 module github.com/Nhanderu/gridt
 
-go 1.12
+go 1.15
 
-require (
-	github.com/mattn/go-runewidth v0.0.4
-	golang.org/x/crypto v0.0.0-20190605123033-f99c8df09eb5
-)
+require github.com/mattn/go-runewidth v0.0.9

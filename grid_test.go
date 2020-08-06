@@ -1,8 +1,9 @@
 package gridt
 
 import (
-	"fmt"
 	"testing"
+
+	"github.com/stretchr/testify/assert"
 )
 
 const (
@@ -28,35 +29,27 @@ func fixedList(n int) []string {
 	return s
 }
 
-func fmtMsg(i, ii, len int, f bool) string {
-	var list, fit string
-	if !f {
-		list = "n empty list"
-		fit = "does not fit"
-	} else {
-		fit = "fits"
-		list = fmt.Sprintf(" list with %d column(s)", len)
-	}
-	return fmt.Sprintf("#%d #%d Should return a%s that %s", i, ii, list, fit)
-}
-
 func TestFitIntoWidth(t *testing.T) {
-	gridTestFitInto(t, func(g *Grid, c, w int) (Dimensions, bool) { return g.FitIntoWidth(w) })
+	gridTestFitInto(t, func(g *Grid, c, w int) (Dimensions, bool) {
+		return g.FitIntoWidth(w)
+	})
 
 }
 func TestFitIntoColumns(t *testing.T) {
-	gridTestFitInto(t, func(g *Grid, c, w int) (Dimensions, bool) { return g.FitIntoColumns(c) })
+	gridTestFitInto(t, func(g *Grid, c, w int) (Dimensions, bool) {
+		return g.FitIntoColumns(c)
+	})
 }
 
-func gridTestFitInto(t *testing.T, test func(g *Grid, c, w int) (Dimensions, bool)) {
-	for i, c := range []struct {
-		v []string  //=> cells' values
-		m int       //=> maximum width
-		d Direction //=> direction
-		s string    //=> separator
-		c int       //=> columns
-		l int       //=> lines
-		f bool      //=> if it fits
+func gridTestFitInto(t *testing.T, functionToTest func(g *Grid, c, w int) (Dimensions, bool)) {
+	for _, testCase := range []struct {
+		values    []string
+		maxWidth  int
+		direction Direction
+		separator string
+		columns   int
+		lines     int
+		fits      bool
 	}{
 		// Empty lists.
 		{fixedList(0), 10, TopToBottom, " ", 0, 0, false},
@@ -104,35 +97,26 @@ func gridTestFitInto(t *testing.T, test func(g *Grid, c, w int) (Dimensions, boo
 		{randomLists[4], 9, TopToBottom, " ", 3, 3, true},
 		{randomLists[4], 9, LeftToRight, " ", 3, 3, true},
 	} {
-		gNew := New(c.d, c.s, c.v...)
-		gNewAdd := New(c.d, c.s).Add(c.v...)
-		gNewDeleteInsert := New(c.d, c.s, c.v...)
-		for i, v := range c.v {
-			gNewDeleteInsert.Delete(i)
-			gNewDeleteInsert.Insert(i, v)
+
+		gridNew := New(testCase.direction, testCase.separator, testCase.values...)
+		gridNewAdd := New(testCase.direction, testCase.separator).Add(testCase.values...)
+		gridNewDeleteInsert := New(testCase.direction, testCase.separator, testCase.values...)
+		for i, v := range testCase.values {
+			gridNewDeleteInsert.Delete(i)
+			gridNewDeleteInsert.Insert(i, v)
 		}
-		for ii, g := range []*Grid{
-			gNew,
-			gNewAdd,
-			gNewDeleteInsert,
+
+		for _, g := range []*Grid{
+			gridNew,
+			gridNewAdd,
+			gridNewDeleteInsert,
 		} {
-			msg := fmtMsg(i, ii, c.c, c.f)
-			d, f := test(g, c.c, c.m)
-			cellsOk := len(c.v) == len(g.Cells())
-			for i, cell := range g.Cells() {
-				if c.v[i] != cell {
-					cellsOk = false
-					break
-				}
-			}
-			if g.Direction() != c.d ||
-				g.Separator() != c.s ||
-				!cellsOk ||
-				d.l != c.l ||
-				f != c.f {
-				t.Fatalf(fatalMsgf, msg, ballotX, d.ws, d.l, f)
-			}
-			t.Logf(logMsgf, msg, checkMark)
+			d, f := functionToTest(g, testCase.columns, testCase.maxWidth)
+			assert.Equal(t, testCase.values, g.Cells())
+			assert.Equal(t, testCase.direction, g.Direction())
+			assert.Equal(t, testCase.separator, g.Separator())
+			assert.Equal(t, testCase.lines, d.l)
+			assert.Equal(t, testCase.fits, f)
 		}
 	}
 }

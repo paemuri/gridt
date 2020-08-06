@@ -1,7 +1,6 @@
 package gridt
 
 import (
-	"bytes"
 	"strings"
 
 	rw "github.com/mattn/go-runewidth"
@@ -31,7 +30,13 @@ func (d Dimensions) Columns() int {
 
 // String formats the grid into a string.
 func (d Dimensions) String() string {
-	var buf bytes.Buffer
+	return string(d.Bytes())
+}
+
+// Bytes formats the grid into a byte slice.
+func (d Dimensions) Bytes() []byte {
+
+	var buf []byte
 	for line := 0; line < d.Lines(); line++ {
 		for column := 0; column < d.Columns(); column++ {
 
@@ -49,26 +54,25 @@ func (d Dimensions) String() string {
 				continue
 			}
 
-			// If `i` represents a value...
+			// If `i` represents a value, writes the cell value, otherwise, fills everything with
+			// spaces.
 			if i < len(d.g.v) {
-				// Writes the cell value.
 				cell := d.g.v[i]
-				buf.WriteString(cell)
-				// Fills the rest of the column with spaces.
-				buf.WriteString(strings.Repeat(" ", d.ws[column]-rw.StringWidth(cell)))
+				buf = append(buf, cell...)
+				buf = append(buf, strings.Repeat(" ", d.ws[column]-rw.StringWidth(cell))...)
 			} else {
-				// If does not, fills everything with spaces.
-				buf.WriteString(strings.Repeat(" ", d.ws[column]))
+				buf = append(buf, strings.Repeat(" ", d.ws[column])...)
 			}
 
 			// Writes the separator only if it is not the last column.
 			if column+1 != d.Columns() {
-				buf.WriteString(d.g.sep)
+				buf = append(buf, d.g.sep...)
 			}
 		}
 
 		// Finish a line.
-		buf.WriteRune('\n')
+		buf = append(buf, '\n')
 	}
-	return buf.String()
+
+	return buf
 }

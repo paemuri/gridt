@@ -27,7 +27,6 @@ func init() {
 	kingpin.CommandLine.HelpFlag.Short('h')
 	kingpin.Version("2.0.0").VersionFlag.Short('v')
 
-	args = kingpin.Flag("args", "Use the given arguments as values.").Short('a').Strings()
 	file = kingpin.Flag("file", "Get values as lines from file.").Short('f').String()
 	separator = kingpin.
 		Flag("separator", "What separates every value column.").
@@ -45,11 +44,6 @@ func init() {
 
 func main() {
 
-	if len(*args) != 0 && *file != "" {
-		eprintln(`"--args" and "--file" shouldn't be used together.`)
-		os.Exit(1)
-	}
-
 	width, _, err := terminal.GetSize(0)
 	if err != nil {
 		eprintln(err.Error())
@@ -57,14 +51,7 @@ func main() {
 	}
 
 	var scanner *bufio.Scanner
-
-	var values []string
-	switch {
-
-	case len(*args) != 0:
-		values = *args
-
-	case *file != "":
+	if *file != "" {
 		f, err := os.Open(*file)
 		if err != nil {
 			eprintf("Error %s.", err.Error())
@@ -72,12 +59,11 @@ func main() {
 		}
 		defer f.Close()
 		scanner = bufio.NewScanner(f)
-
-	default:
+	} else {
 		scanner = bufio.NewScanner(os.Stdin)
-
 	}
 
+	var values []string
 	if scanner != nil {
 		scanner.Split(bufio.ScanLines)
 		for scanner.Scan() {
@@ -85,14 +71,14 @@ func main() {
 		}
 	}
 
-	d := gridt.TopToBottom
-	if *direction == leftToRight {
-		d = gridt.LeftToRight
-	}
-
 	if len(values) == 0 {
 		eprintln("No values were given.")
 		os.Exit(1)
+	}
+
+	d := gridt.TopToBottom
+	if *direction == leftToRight {
+		d = gridt.LeftToRight
 	}
 
 	grid, ok := gridt.New(d, *separator, values...).FitIntoWidth(width)

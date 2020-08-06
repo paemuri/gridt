@@ -38,14 +38,38 @@ brew install gridt
 ### Go
 
 ```sh
-go get github.com/Nhanderu/gridt/cmd/gridt
+go install github.com/Nhanderu/gridt/cmd/gridt
 ```
 
 ## Run
 
 #### `gridt`
 
-Runs the program with default configuration.
+Runs the program with default configuration. It gets the values from stdin
+lines.
+
+### Flags
+
+#### `-h` or `--help`
+
+Shows the CLI help message.
+
+#### `-v` or `--version`
+
+Shows the CLI version.
+
+#### `-f <file>` or `--file <file>`
+
+Instead of getting the lines from stdin, gets it from a specific file.
+
+#### `-s <sep>` or `--separator <sep>`
+
+Defines what separates every value column. Defaults to `"  "`.
+
+#### `-d <direction>` or `--direction <direction>`
+
+Defines writing direction. It can be `top-to-bottom` or `left-to-right`.
+Defaults to `top-to-bottom`.
 
 ## Library usage
 

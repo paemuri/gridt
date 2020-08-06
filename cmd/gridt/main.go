@@ -25,7 +25,7 @@ var (
 func init() {
 
 	kingpin.CommandLine.HelpFlag.Short('h')
-	kingpin.Version("2.0.0").VersionFlag.Short('v')
+	kingpin.Version("2.0.1").VersionFlag.Short('v')
 
 	file = kingpin.Flag("file", "Get values as lines from file.").Short('f').String()
 	separator = kingpin.

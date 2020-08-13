@@ -8,20 +8,20 @@
 
 Display contents as a grid in the terminal!
 
-Format unidimensional lists (slices) as grids, with well-defined columns,
-suitable for fixed-width fonts, for the sake of readability.
+Format unidimensional lists (slices) as grids, with well-defined
+columns, suitable for fixed-width fonts, for the sake of readability.
 
 It's both a CLI and a Go library.
 
-Inspired by [ogham/rust-term-grid][1] and by the fact that I needed it for
-[Nhanderu/ipe][2].
+Inspired by [ogham/rust-term-grid][1] and by the fact that I needed it
+for [Nhanderu/ipe][2].
 
 ## Example
 
 **What we do not want:**
 
-![What we do not want](./static/images/what-we-do-not-want.png "What we do no
-want")
+![What we do not want](./static/images/what-we-do-not-want.png "What we
+do no want")
 
 **What we want:**
 
@@ -46,8 +46,8 @@ go install github.com/Nhanderu/gridt/cmd/gridt
 
 #### `gridt`
 
-Runs the program with default configuration. It gets the values from stdin
-lines.
+Runs the program with default configuration. It gets the values from
+stdin lines.
 
 ### Flags
 
@@ -109,9 +109,9 @@ This project code is in the public domain. See the [LICENSE file][3].
 
 ### Contribution
 
-Unless you explicitly state otherwise, any contribution intentionally submitted
-for inclusion in the work by you shall be in the public domain, without any
-additional terms or conditions.
+Unless you explicitly state otherwise, any contribution intentionally
+submitted for inclusion in the work by you shall be in the public
+domain, without any additional terms or conditions.
 
 [1]: https://github.com/ogham/rust-term-grid/
 [2]: https://github.com/Nhanderu/ipe/

@@ -5,7 +5,7 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/Nhanderu/gridt"
+	"github.com/paemuri/gridt"
 	"github.com/alecthomas/kingpin"
 	"golang.org/x/crypto/ssh/terminal"
 )

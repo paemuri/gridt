@@ -1,4 +1,4 @@
-module github.com/Nhanderu/gridt
+module github.com/paemuri/gridt
 
 go 1.15
 

@@ -14,7 +14,7 @@ columns, suitable for fixed-width fonts, for the sake of readability.
 It's both a CLI and a Go library.
 
 Inspired by [ogham/rust-term-grid][1] and by the fact that I needed it
-for [Nhanderu/ipe][2].
+for [paemuri/ipe][2].
 
 ## Example
 
@@ -32,17 +32,19 @@ do no want")
 ### Brew
 
 ```sh
-brew tap Nhanderu/packages
+brew tap paemuri/packages
 brew install gridt
 ```
 
 ### Go
 
 ```sh
-go install github.com/Nhanderu/gridt/cmd/gridt
+go install github.com/paemuri/gridt/cmd/gridt
 ```
 
 ## Run
+
+### Default
 
 #### `gridt`
 
@@ -114,16 +116,16 @@ submitted for inclusion in the work by you shall be in the public
 domain, without any additional terms or conditions.
 
 [1]: https://github.com/ogham/rust-term-grid/
-[2]: https://github.com/Nhanderu/ipe/
+[2]: https://github.com/paemuri/ipe/
 [3]: ./LICENSE
 
-[badge-1-img]: https://img.shields.io/github/license/Nhanderu/gridt?style=flat-square
-[badge-1-link]: https://github.com/Nhanderu/gridt/blob/master/LICENSE
+[badge-1-img]: https://img.shields.io/github/license/paemuri/gridt?style=flat-square
+[badge-1-link]: https://github.com/paemuri/gridt/blob/master/LICENSE
 [badge-2-img]: https://img.shields.io/badge/go.dev-reference-007d9c?style=flat-square&logo=go&logoColor=white
-[badge-2-link]: https://pkg.go.dev/github.com/Nhanderu/gridt
-[badge-3-img]: https://img.shields.io/travis/Nhanderu/gridt?style=flat-square
-[badge-3-link]: https://travis-ci.org/Nhanderu/gridt
-[badge-4-img]: https://img.shields.io/codecov/c/gh/Nhanderu/gridt?style=flat-square
-[badge-4-link]: https://codecov.io/gh/Nhanderu/gridt
-[badge-5-img]: https://goreportcard.com/badge/github.com/Nhanderu/gridt?style=flat-square
-[badge-5-link]: https://goreportcard.com/report/github.com/Nhanderu/gridt
+[badge-2-link]: https://pkg.go.dev/github.com/paemuri/gridt
+[badge-3-img]: https://img.shields.io/travis/paemuri/gridt?style=flat-square
+[badge-3-link]: https://travis-ci.org/paemuri/gridt
+[badge-4-img]: https://img.shields.io/codecov/c/gh/paemuri/gridt?style=flat-square
+[badge-4-link]: https://codecov.io/gh/paemuri/gridt
+[badge-5-img]: https://goreportcard.com/badge/github.com/paemuri/gridt?style=flat-square
+[badge-5-link]: https://goreportcard.com/report/github.com/paemuri/gridt

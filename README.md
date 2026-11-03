@@ -114,7 +114,7 @@ conditions.
 
 ### License history
 
-Starting with v3.0.0, this project is licensed under MPL-2.0
+Starting with v3.0.0, this project is licensed under MPL-2.0.
 
 [1]: https://github.com/ogham/rust-term-grid/
 [2]: https://github.com/paemuri/ipe/

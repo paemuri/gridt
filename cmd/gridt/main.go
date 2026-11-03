@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"os"
 
-	"github.com/paemuri/gridt"
 	"github.com/alecthomas/kingpin"
+	"github.com/paemuri/gridt/v3"
 	"golang.org/x/crypto/ssh/terminal"
 )
 
@@ -25,7 +25,7 @@ var (
 func init() {
 
 	kingpin.CommandLine.HelpFlag.Short('h')
-	kingpin.Version("2.0.1").VersionFlag.Short('v')
+	kingpin.Version("3.0.0").VersionFlag.Short('v')
 
 	file = kingpin.Flag("file", "Get values as lines from file.").Short('f').String()
 	separator = kingpin.

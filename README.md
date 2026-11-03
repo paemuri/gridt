@@ -2,9 +2,7 @@
 
 [![License][badge-1-img]][badge-1-link]
 [![go.dev][badge-2-img]][badge-2-link]
-[![Travis CI][badge-3-img]][badge-3-link]
-[![Codecov.io][badge-4-img]][badge-4-link]
-[![Go Report Card][badge-5-img]][badge-5-link]
+[![Go Report Card][badge-3-img]][badge-3-link]
 
 Display contents as a grid in the terminal!
 
@@ -29,17 +27,10 @@ do no want")
 
 ## Install
 
-### Brew
-
-```sh
-brew tap paemuri/packages
-brew install gridt
-```
-
 ### Go
 
 ```sh
-go install github.com/paemuri/gridt/cmd/gridt
+go install github.com/paemuri/gridt/v3/cmd/gridt@latest
 ```
 
 ## Run
@@ -131,13 +122,9 @@ Starting with v3.0.0, this project is licensed under MPL-2.0
 [badge-1-img]: https://img.shields.io/badge/license-MPL--2.0-green?style=flat-square
 [badge-1-link]: ./LICENSE
 [badge-2-img]: https://img.shields.io/badge/go.dev-reference-007d9c?style=flat-square&logo=go&logoColor=white
-[badge-2-link]: https://pkg.go.dev/github.com/paemuri/gridt
-[badge-3-img]: https://img.shields.io/travis/paemuri/gridt?style=flat-square
-[badge-3-link]: https://travis-ci.org/paemuri/gridt
-[badge-4-img]: https://img.shields.io/codecov/c/gh/paemuri/gridt?style=flat-square
-[badge-4-link]: https://codecov.io/gh/paemuri/gridt
-[badge-5-img]: https://goreportcard.com/badge/github.com/paemuri/gridt?style=flat-square
-[badge-5-link]: https://goreportcard.com/report/github.com/paemuri/gridt
+[badge-2-link]: https://pkg.go.dev/github.com/paemuri/gridt/v3
+[badge-3-img]: https://goreportcard.com/badge/github.com/paemuri/gridt?style=flat-square
+[badge-3-link]: https://goreportcard.com/report/github.com/paemuri/gridt
 
 [source-srht]: https://git.sr.ht/~paemuri/gridt
 [source-codeberg]: https://codeberg.org/paemuri/gridt

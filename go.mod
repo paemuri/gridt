@@ -1,4 +1,4 @@
-module github.com/paemuri/gridt/v3
+module git.sr.ht/~paemuri/gridt/v3
 
 go 1.15
 

@@ -5,8 +5,8 @@ import (
 	"fmt"
 	"os"
 
+	"git.sr.ht/~paemuri/gridt/v3"
 	"github.com/alecthomas/kingpin"
-	"github.com/paemuri/gridt/v3"
 	"golang.org/x/crypto/ssh/terminal"
 )
 

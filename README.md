@@ -107,7 +107,9 @@ dim, ok := grid.FitIntoColumns(3)
 
 ## Source code
 
-The main repository is on [GitHub][source-github].
+The main repository is on [SourceHut][source-srht]. Mirrors exist on
+[Codeberg][source-codeberg] and [GitHub][source-github] for convenience, but
+they might occasionally be outdated.
 
 ## License and contribution
 
@@ -137,6 +139,8 @@ Starting with v3.0.0, this project is licensed under MPL-2.0
 [badge-5-img]: https://goreportcard.com/badge/github.com/paemuri/gridt?style=flat-square
 [badge-5-link]: https://goreportcard.com/report/github.com/paemuri/gridt
 
+[source-srht]: https://git.sr.ht/~paemuri/gridt
+[source-codeberg]: https://codeberg.org/paemuri/gridt
 [source-github]: https://github.com/paemuri/gridt
 
 [license-code]: ./LICENSES/MPL-2.0.txt
